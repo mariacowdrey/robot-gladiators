@@ -14,12 +14,6 @@ var enemyNames = ['Roborto', 'Amy Android', 'Robo Trumble'];
 var enemyHealth = 50;
 var enemyAttack = 12;
 
-for (var i = 0; i < enemyNames.length; i++) {
-    var pickedEnemyName = enemyNames[i];
-    enemyHealth = 50;
-    fight(pickedEnemyName);
-}
-
 var fight = function(enemyName) {
     while (playerHealth > 0 && enemyHealth > 0) {
     // ask player if they'd like to fight or run 
@@ -58,6 +52,11 @@ var fight = function(enemyName) {
          window.alert(playerName + " still has " + playerHealth + " health left.");
         }
 
+        else {
+         window.alert("You have lost your robot in battle! Game Over!");
+         break;
+        }
+
     // remove enemy's health by subtracting the amount set in the playerAttack variable
         enemyHealth = enemyHealth - playerAttack;
         console.log(
@@ -66,18 +65,23 @@ var fight = function(enemyName) {
 
     // check player's health
         if (playerHealth <= 0) {
-        window.alert(playerName + " has died!");
-        // leave while() loop if player is dead
-        break;
-        } else {
-         window.alert(playerName + " still has " + playerHealth + " health left.");
+        // let player know what round they are in , remember that arrays start at 0 so it needs to have 1 added to it
+        window.alert("Welcome to Robot Gladiators! Round" + ( i + 1));
+
+        // pick new enemy to fight based on the index of the enemyNames array
+        var pickedEnemyName = enemyNames[i];
+
+        // reset enemyHealth before starting new fight
+        enemyHealth = 50;
+
+        // use debugger to pause script from running and check what's going on at that moment in the code
+        // debugger;
+
+        // pass the pickedEnemyName variable's value into the fight function, where it will assume the value of the enemyName parameter
+        fight(pickedEnemyName);
           
         }
     }
 };
 
-for(var i = 0; i < enemyNames.length; i++) {
-    debugger;
-    // call fight function with enemy-robot
-    fight(enemyNames[i]);
-}
+
