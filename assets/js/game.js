@@ -46,8 +46,17 @@ var fightOrSkip = function() {
 
 
 var fight = function(enemy) {
+    // keep track of who goes first
+    var isPlayerTurn = true;
+
+    // randomly change turn order
+    if (Math.random() > 0.5) {
+        isPlayerTurn = false;
+    }
+
     // repeat and execute as long as the enemy-robot is alive
     while (playerInfo.health > 0 && enemy.health > 0) {
+        if (isPlayerTurn) {
         // ask player if they'd like to fight or skip using fightOrSkip function
         if (fightOrSkip()) {
             // if true, leave fight by breaking loop
@@ -57,6 +66,7 @@ var fight = function(enemy) {
     // generate random damage value based on player's attack power
     var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
 
+        // remove enemy's health by subtracting the amount we set in the damage variable
         enemy.health = Math.max(0, enemy.health - damage);
         console.log(
          playerInfo.name + ' attacked ' + enemy.name + '. ' + enemy.name + ' now has ' + enemy.health + ' health remaining.'
@@ -74,10 +84,11 @@ var fight = function(enemy) {
         } else {
          window.alert(enemy.name + ' still has ' + enemy.health + ' health left.');
         }
+        // player gets attacked first
+    } else {
+        var damage = randomNumber(enemy.attack - 3, enemy.attack);
 
-    // remove player's health by subtracting the amount set in the enemy.attack variable
-    var damage = randomNumber(enemy.attack - 3, enemy.attack);
-
+    // remove player's health by subtracting the amount we set in the damage variable
     playerInfo.health = Math.max(0, playerInfo.health - damage);
     console.log(
         enemy.name + ' attacked ' + playerInfo.name + '. ' + playerInfo.name + ' now has ' + playerInfo.health + ' health remaining.'
@@ -92,6 +103,9 @@ var fight = function(enemy) {
         window.alert(playerInfo.name + ' still has ' + playerInfo.health + ' health left.');
         }
     } 
+    // switch turn order for next round
+    isPlayerTurn = !isPlayerTurn;
+    }
 };
 
 // function to start a new game
